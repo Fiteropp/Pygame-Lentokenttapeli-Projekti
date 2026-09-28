@@ -8,7 +8,7 @@ class Engine:
 
     def __init__(self, ev_manager):
         """
-        :param ev_manager  Allows posting messages to the event queue.
+        :param ev_manager:  Allows posting messages to the event queue.
         """
 
         self.ev_manager = ev_manager

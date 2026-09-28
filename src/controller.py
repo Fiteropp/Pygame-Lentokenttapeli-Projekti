@@ -27,6 +27,9 @@ class Keyboard(object):
                     self.ev_manager.post(events.QuitEvent())
                     break
 
+                elif ev.type == pygame.MOUSEMOTION:
+                    pos = pygame.mouse.get_pos()
+                    self.ev_manager.post(events.MouseMoveEvent(pos))
 
                 # Keyboard and Mouse events
                 elif ev.type == pygame.KEYDOWN:
@@ -34,7 +37,7 @@ class Keyboard(object):
                         self.ev_manager.post(events.QuitEvent())
                         break
                     else:
-                        self.ev_manager.post(events.InputEvent(ev.unicode))
+                        self.ev_manager.post(events.KeyInputEvent(ev.unicode))
 
 
                 elif ev.type == pygame.MOUSEBUTTONDOWN:
