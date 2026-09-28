@@ -12,6 +12,7 @@ class TickEvent(Event):
     """
 
     name = "Tick event"
+    dt: float = field(init=True, repr=False)
 
 
 @dataclass(frozen=True, slots=True)
@@ -87,10 +88,11 @@ class InitializeEvent(Event):
 @dataclass(frozen=True, slots=True)
 class PygameReadyEvent(Event):
     """
-    Pygame finished initializing.
+    Posted once pygame's display and font systems are ready.
+    Carries the detected monitor refresh rate.
     """
-
     name: str = field(default="Pygame Ready event", init=False)
+    refresh_rate: int = field(init=True, repr=True)
 
 
 @dataclass(frozen=True, slots=True)

@@ -17,7 +17,6 @@ class Graphics:
         is_initialized (bool): pygame is ready to draw.
         screen (pygame.Surface): pygame screen object.
         clock (pygame.time.Clock): keeps the fps constant.
-        small_font (pygame.font.Font): pygame font object.
 
         """
 
@@ -27,10 +26,7 @@ class Graphics:
         self.is_initialized = False
         self.screen = None
         self.vsync_fps = 0
-        self.clock = None
-        self.small_font = None
         self.scene_manager = scene_manager
-
 
     def  notify(self, event):
         """
@@ -54,9 +50,19 @@ class Graphics:
                     return
                 self.renderall()
 
-                assert self.clock is not None
-                self.clock.tick(self.vsync_fps)  # Limits fps to 60
 
+    def initialize(self):
+        pygame.display.init()
+        pygame.font.init()
+        pygame.display.set_caption("Airport Game")
+        self.screen = pygame.display.set_mode((1200, 900))
+        self.is_initialized = True
+
+        refresh_rate = pygame.display.get_current_refresh_rate()
+        if refresh_rate == 0:
+            refresh_rate = 60  # fallback
+
+        self.ev_manager.post(events.PygameReadyEvent(refresh_rate))
 
     def renderall(self):
         """
@@ -69,15 +75,3 @@ class Graphics:
         if self.scene_manager.current is not None:
             self.scene_manager.current.draw(self.screen)
         pygame.display.flip()
-
-
-    def initialize(self):
-        pygame.display.init()
-        pygame.font.init()
-        pygame.display.set_caption("Airport Game")
-        self.screen = pygame.display.set_mode((1200, 900))
-        self.clock = pygame.time.Clock()
-        self.is_initialized = True
-        self.ev_manager.post(
-            events.PygameReadyEvent()
-        )
