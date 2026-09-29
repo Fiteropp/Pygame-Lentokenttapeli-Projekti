@@ -8,7 +8,7 @@ class Graphics:
     Draws the model state onto the screen
     """
 
-    def __init__(self, ev_manager, model):
+    def __init__(self, ev_manager, model, scene_manager):
         """
 
         :param ev_manager:  Allows posting messages to the event queue.
@@ -17,7 +17,6 @@ class Graphics:
         is_initialized (bool): pygame is ready to draw.
         screen (pygame.Surface): pygame screen object.
         clock (pygame.time.Clock): keeps the fps constant.
-        small_font (pygame.font.Font): pygame font object.
 
         """
 
@@ -27,8 +26,7 @@ class Graphics:
         self.is_initialized = False
         self.screen = None
         self.vsync_fps = 0
-        self.clock = None
-        self.small_font = None
+        self.scene_manager = scene_manager
 
     def  notify(self, event):
         """
@@ -38,22 +36,33 @@ class Graphics:
         :param event:
         :return:
         """
+        match event:
+            case events.InitializeEvent():
+                self.initialize()
 
-        if isinstance(event, events.InitializeEvent):
-            self.initialize()
+            case events.QuitEvent():
+                # Shut down graphics
+                self.is_initialized = False
+                pygame.quit()
 
-        elif isinstance(event, events.QuitEvent):
-            # Shut down graphics
-            self.is_initialized = False
-            pygame.quit()
+            case events.TickEvent():
+                if not self.is_initialized:
+                    return
+                self.renderall()
 
-        elif isinstance(event, events.TickEvent):
-            if not self.is_initialized:
-                return
-            self.renderall()
 
-            assert self.clock is not None
-            self.clock.tick(self.vsync_fps)  # Limits fps to 60
+    def initialize(self):
+        pygame.display.init()
+        pygame.font.init()
+        pygame.display.set_caption("Airport Game")
+        self.screen = pygame.display.set_mode((1200, 900))
+        self.is_initialized = True
+
+        refresh_rate = pygame.display.get_current_refresh_rate()
+        if refresh_rate == 0:
+            refresh_rate = 60  # fallback
+
+        self.ev_manager.post(events.PygameReadyEvent(refresh_rate))
 
     def renderall(self):
         """
@@ -62,34 +71,7 @@ class Graphics:
         """
 
         assert self.screen is not None
-        assert self.clock is not None
-        assert self.small_font is not None
-
-        if not self.is_initialized:
-            return
-
         self.screen.fill((0, 0, 0))
-
-        words = self.small_font.render("Test text", True, (0, 255, 0))
-
-        self.screen.blit(words, (10, 10))
+        if self.scene_manager.current is not None:
+            self.scene_manager.current.draw(self.screen)
         pygame.display.flip()
-
-    def initialize(self):
-        """
-        Initialize pygame and load resources
-        """
-
-        #pygame.init()
-        pygame.display.init()
-        pygame.font.init()
-        pygame.display.set_caption("Airport Game")
-        self.screen = pygame.display.set_mode((1200, 900))
-        self.clock = pygame.time.Clock()
-        self.small_font = pygame.font.SysFont("Arial", 20)
-
-        self.vsync_fps = pygame.display.get_current_refresh_rate()
-        if self.vsync_fps == 0:
-            self.vsync_fps = 60
-
-        self.is_initialized = True

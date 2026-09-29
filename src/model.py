@@ -1,3 +1,5 @@
+import pygame
+
 import events as ev
 
 
@@ -8,12 +10,13 @@ class Engine:
 
     def __init__(self, ev_manager):
         """
-        :param ev_manager  Allows posting messages to the event queue.
+        :param ev_manager:  Allows posting messages to the event queue.
         """
 
         self.ev_manager = ev_manager
         ev_manager.register_listener(self)
         self.running = False
+        self.target_fps = 60
 
     def notify(self, event):
         """
@@ -22,6 +25,8 @@ class Engine:
 
         if isinstance(event, ev.QuitEvent):
             self.running = False
+        elif isinstance(event, ev.PygameReadyEvent):
+            self.target_fps = event.refresh_rate
 
     def run(self):
         """
@@ -33,7 +38,9 @@ class Engine:
 
         self.running = True
         self.ev_manager.post(ev.InitializeEvent())
+        clock = pygame.time.Clock()
+
         while self.running:
-            new_tick = ev.TickEvent()
-            self.ev_manager.post(new_tick)
+            dt =  clock.tick(self.target_fps) / 1000.0
+            self.ev_manager.post(ev.TickEvent(dt))
 
