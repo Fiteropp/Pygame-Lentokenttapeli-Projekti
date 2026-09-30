@@ -21,3 +21,14 @@ class MapController:
 
                 if vel_dx or vel_dy:
                     self.ev_manager.post(game_events.MapMoveEvent(vel_dx, vel_dy))
+
+            case events.KeyInputEvent():
+                key = event.unicodechar
+                if key == "r" or "f":
+                    match key:
+                        case "r":
+                            zoom = 0.9
+                            self.ev_manager.post(game_events.MapScaleEvent(zoom))
+                        case "f":
+                            zoom = 1.1
+                            self.ev_manager.post(game_events.MapScaleEvent(zoom))

@@ -1,5 +1,6 @@
 import pygame
 
+import events
 import game_events
 from ui import UIElement
 
@@ -30,6 +31,17 @@ class Map(UIElement):
 
                 self.map_surface.x = round(self.pos_dx) + self.origin_x
                 self.map_surface.y = round(self.pos_dy) + self.origin_y
+
+            case game_events.MapScaleEvent():
+                factor = event.zoom
+
+                self.map_surface.scale_by_ip(factor, factor)
+
+            case events.MouseScrollEvent():
+                factor = (event.scroll_y + 10) / 10
+                print(factor)
+                self.map_surface.scale_by_ip(factor, factor)
+                print(self.map_surface)
 
             case game_events.ChangeSceneEvent("game"):
                 self.pos_dx = 0.0
