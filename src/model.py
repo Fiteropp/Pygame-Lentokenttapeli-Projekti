@@ -44,3 +44,4 @@ class Engine:
             dt =  clock.tick(self.target_fps) / 1000.0
             self.ev_manager.post(ev.TickEvent(dt))
 
+        pygame.quit()

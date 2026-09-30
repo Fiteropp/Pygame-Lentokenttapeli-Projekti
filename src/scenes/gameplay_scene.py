@@ -13,11 +13,12 @@ class GameScene(Scene):
         self.exit_button = None
         self.game_map = None
         self.map_surface = None
+        self.map_container = None
 
     def enter(self):
         if self.exit_button is None:
             self.exit_button = Button(
-                pygame.Rect(0, 0, 200, 50),
+                pygame.Rect(0, 0, 100, 40),
                 callback=lambda: self.ev_manager.post(
                     game_events.ChangeSceneEvent("menu")
                 ),
@@ -31,10 +32,20 @@ class GameScene(Scene):
             self.map_controller = MapController(self.ev_manager)
 
         if self.map_surface is None:
-            self.map_surface = pygame.Rect(100, 100, 500, 500)
+            self.map_surface = pygame.Rect(50, 50, 800, 800)
+
+        if self.map_container is None:
+            self.map_container = pygame.Rect(50, 50, 800, 800)
 
         if self.game_map is None:
-            self.game_map = Map(rect=self.map_surface, z_index=1, ev_manager=self.ev_manager, color=(20, 100, 0))
+            self.game_map = Map(
+                rect=self.map_surface,
+                z_index=1,
+                ev_manager=self.ev_manager,
+                color=(20, 100, 0),
+                container=self.map_container,
+                texture=self.assets.image("map"),
+            )
             self.elements.append(self.game_map)
 
         super().enter()

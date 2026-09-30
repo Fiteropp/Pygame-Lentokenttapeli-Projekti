@@ -5,7 +5,7 @@ import events
 
 class MapController:
 
-    SPEED = 150
+    SPEED = 300
 
     def __init__(self, ev_manager):
 
@@ -15,6 +15,8 @@ class MapController:
     def notify(self, event):
         match event:
             case events.TickEvent():
+                if not pygame.display.get_init():
+                    return
                 keys = pygame.key.get_pressed()
                 vel_dx = (keys[pygame.K_d] - keys[pygame.K_a]) * self.SPEED * event.dt
                 vel_dy = (keys[pygame.K_s] - keys[pygame.K_w]) * self.SPEED * event.dt

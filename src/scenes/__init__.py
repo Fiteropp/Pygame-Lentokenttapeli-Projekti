@@ -13,21 +13,18 @@ class Scene:
         self.assets = assets
         self.elements: list[UIElement] = []
 
-
     def add(self, element: UIElement) -> UIElement:
         self.elements.append(element)
         return element
 
-
     def enter(self):
+        self.elements.sort(key=lambda e: e.z_index)
         for e in self.elements:
             self.ui_manager.add(e)
-
 
     def exit(self):
         for e in self.elements:
             self.ui_manager.remove(e)
-
 
     def draw(self, screen):
         for element in self.elements:
