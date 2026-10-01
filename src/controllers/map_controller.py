@@ -18,8 +18,8 @@ class MapController:
                 if not pygame.display.get_init():
                     return
                 keys = pygame.key.get_pressed()
-                vel_dx = (keys[pygame.K_d] - keys[pygame.K_a]) * self.SPEED * event.dt
-                vel_dy = (keys[pygame.K_s] - keys[pygame.K_w]) * self.SPEED * event.dt
+                vel_dx = (keys[pygame.K_d] - keys[pygame.K_a]) * self.SPEED * event.dt * -1
+                vel_dy = (keys[pygame.K_s] - keys[pygame.K_w]) * self.SPEED * event.dt * -1
 
                 if vel_dx or vel_dy:
                     self.ev_manager.post(game_events.MapMoveEvent(vel_dx, vel_dy))
