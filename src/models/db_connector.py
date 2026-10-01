@@ -22,11 +22,13 @@ class DBConnector:
 
 
     def is_connected(self):
+        if getenv("DEBUG") == "TRUE":
+            return
 
         try:
             connection = mariadb.connect(
                 host=getenv("HOST"),
-                port=int(getenv("PORT")),
+                port=getenv("PORT"),
                 user=getenv("USER"),
                 password=getenv("PASSWORD"),
                 database=getenv("DATABASE"),
