@@ -118,3 +118,26 @@ class DatabaseConnectionFailed(Event):
     """
     connection_failed: bool = False
 
+@dataclass(frozen=True, slots=True)
+class yoyoIsConnected(Event):
+    """
+        Checking for yoyo connection.
+    """
+    yoyo_is_connected: bool = False
+
+
+@dataclass(frozen=True, slots=True)
+class yoyoCheckMigrations(Event):
+    """
+        Logging all not applied migrations.
+    """
+    yoyo_migration_log: list = field(default_factory=list)
+
+@dataclass(frozen=True, slots=True)
+class yoyoApplyingMigrations(Event):
+    """
+        Checking to apply migrations.
+    """
+    yoyo_apply_status: bool = False
+
+
