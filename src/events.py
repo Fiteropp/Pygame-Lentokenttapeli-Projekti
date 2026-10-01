@@ -102,3 +102,19 @@ class AssetsReadyEvent(Event):
     """
 
     name: str = field(default="Assets Ready event", init=False)
+
+@dataclass(frozen=True, slots=True)
+class DBConnect(Event):
+    """
+        Connection to database.
+    """
+
+    db_connected: bool = False
+
+@dataclass(frozen=True, slots=True)
+class DatabaseConnectionFailed(Event):
+    """
+        Database connection failed event.
+    """
+    connection_failed: bool = False
+
