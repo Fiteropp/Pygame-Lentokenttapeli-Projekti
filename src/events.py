@@ -110,3 +110,11 @@ class DBConnect(Event):
     """
 
     db_connected: bool = False
+
+@dataclass(frozen=True, slots=True)
+class DatabaseConnectionFailed(Event):
+    """
+        Database connection failed event.
+    """
+    connection_failed: bool = False
+

@@ -38,6 +38,7 @@ class DBConnector:
             
             print(f"MariaDB error: {error}")
             event = events.DBConnect(False)
+            event = events.DatabaseConnectionFailed(True)
 
         self.ev_manager.post(event)
 
