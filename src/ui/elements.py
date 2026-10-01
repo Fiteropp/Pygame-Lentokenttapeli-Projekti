@@ -60,10 +60,18 @@ class text(UIElement):
 
     def draw(self, screen):
         font = pygame.font.Font(self.fontname, self.fontsize)
-        words = font.render(self.text, True, self.fontcolor)
+        color = self.hover_color if self.highlighted else self.fontcolor
+        words = font.render(self.text, True, color)
 
         text_rect = words.get_rect(center=self.rect.center)
-        
+        screen.blit(words, text_rect)
+
+    def on_hover_start(self):
+        self.highlighted = True
+
+    def on_hover_end(self):
+        self.highlighted = False
+    
 
 
 
