@@ -8,7 +8,6 @@ class EventManager:
     def __init__(self):
         self.listeners = WeakKeyDictionary()
 
-
     def register_listener(self, listener):
         """
         Adds a listener to call list.
@@ -16,7 +15,6 @@ class EventManager:
         """
 
         self.listeners[listener] = 1
-
 
     def unregister_listener(self, listener):
 
@@ -28,7 +26,6 @@ class EventManager:
         if listener in self.listeners:
             del self.listeners[listener]
 
-
     def post(self, event):
 
         """
@@ -38,5 +35,5 @@ class EventManager:
         if not isinstance(event, events.TickEvent) and not isinstance(event, events.MouseMoveEvent):
             # print the event (unless it is TickEvent or MouseMove)
             print(str(event))
-        for listener in self.listeners:
+        for listener in list(self.listeners):
             listener.notify(event)

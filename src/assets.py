@@ -1,3 +1,5 @@
+import os.path
+
 import pygame
 
 import events as ev
@@ -20,10 +22,12 @@ class Assets:
         self.images: dict[str, pygame.Surface] = {}
         self.is_loaded = False
 
+
     def notify(self, event):
         if isinstance(event, ev.PygameReadyEvent):
             self.load()
             self.ev_manager.post(ev.AssetsReadyEvent())
+
 
     def load(self):
         """
@@ -34,9 +38,10 @@ class Assets:
         self.fonts["heading"] = pygame.font.SysFont("Arial", 36, bold=True)
         self.fonts["small"] = pygame.font.SysFont("Arial", 14)
 
-        # self.images["logo"] = pygame.image.load("assets/logo.png").convert_alpha()
+        self.images["map"] = pygame.image.load(os.path.join('src', 'assets', 'map-264.png')).convert_alpha()
 
         self.is_loaded = True
+
 
     def font(self, name: str) -> pygame.font.Font:
         """
@@ -50,3 +55,14 @@ class Assets:
         except KeyError:
             raise KeyError(f"No font registered under '{name}'. "
                             f"Available: {list(self.fonts)}") from None
+
+
+    def image(self, name: str) -> pygame.Surface:
+        if not self.is_loaded:
+            raise RuntimeError("Assets.image() called before load()")
+        try:
+            return self.images[name]
+        except KeyError:
+            raise KeyError(
+                f"No image registered under '{name}'. Available: {list(self.images)}"
+            ) from None
