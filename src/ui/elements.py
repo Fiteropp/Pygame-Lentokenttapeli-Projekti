@@ -8,6 +8,7 @@ import pygame
 
 
 class Button(UIElement):
+           
     """
     A clickable, hoverable rectangular UI element with optional text.
     """
@@ -42,3 +43,29 @@ class Button(UIElement):
     def on_click(self):
         if self.callback is not None:
             self.callback()
+
+class text(UIElement):
+
+    """
+    Defines the text inside Button
+    """
+    def __init__ (self, rect, z_index=0, fontname = None, fontsize = 40, fontcolor = (255,255,255), hover_color=(100,100,100),text = None ):
+        super(). __init__(rect, z_index)
+        self.fontname = fontname
+        self.fontsize = fontsize 
+        self.fontcolor = fontcolor
+        self.hover_color = hover_color
+        self.text = text
+        self.highlighted = False
+
+    def draw(self, screen):
+        font = pygame.font.Font(self.fontname, self.fontsize)
+        words = font.render(self.text, True, self.fontcolor)
+
+        text_rect = words.get_rect(center=self.rect.center)
+        
+
+
+
+
+
