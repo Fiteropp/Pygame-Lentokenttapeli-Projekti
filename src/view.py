@@ -41,9 +41,8 @@ class Graphics:
                 self.initialize()
 
             case events.QuitEvent():
-                # Shut down graphics
                 self.is_initialized = False
-                pygame.quit()
+
 
             case events.TickEvent():
                 if not self.is_initialized:
