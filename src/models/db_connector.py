@@ -22,6 +22,8 @@ class DBConnector:
 
 
     def is_connected(self):
+        if getenv("DEBUG") == "TRUE":
+            return
 
         try:
             connection = mariadb.connect(
