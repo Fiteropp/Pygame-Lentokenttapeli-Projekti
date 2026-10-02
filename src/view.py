@@ -53,7 +53,7 @@ class Graphics:
         pygame.font.init()
         pygame.mixer.init()
         pygame.display.set_caption("Airport Game")
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((1200, 900))
         self.is_initialized = True
 
         refresh_rate = pygame.display.get_current_refresh_rate()
