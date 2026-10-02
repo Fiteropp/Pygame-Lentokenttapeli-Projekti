@@ -13,10 +13,8 @@ class MenuScene(Scene):
         self.exit_game_button = None
         self.rules_button = None 
         self.title = None
-
-        self.background = pygame.image.load(
-            os.path.join("src", "assets", "menu_background.png")
-)
+        self.mute_button = None
+        self.muted = False
 
     def enter(self):
         if self.title is None:
@@ -25,6 +23,7 @@ class MenuScene(Scene):
                 fontname=None,
                 fontsize=60,
                 fontcolor=(255, 255,255),
+                hover_color=(255, 255,255),
                 text="AFRIKAN TÄHTI"
             
             )
@@ -67,10 +66,25 @@ class MenuScene(Scene):
                 font=self.assets.font("default"),
             )
             self.elements.append(self.exit_game_button)
+
+        if self.mute_button is None:
+            self.mute_button = Button(
+                pygame.Rect(1100, 0, 100, 60),
+                callback= self.toggle_mute,
+                text="Mute",
+                font=self.assets.font("default"),
+                color=(80, 20, 10),
+                hover_color=(100, 60, 30)
+            )
+            self.elements.append(self.mute_button)
         
         super().enter()
 
     def draw(self, screen):
-        background = pygame.transform.scale(self.background, screen.get_size())
+        background = pygame.transform.scale(self.assets.image("menu-bkg-img"), screen.get_size())
         screen.blit(background, (0, 0))
         super().draw(screen)
+
+    def toggle_mute(self):
+        self.muted = not self.muted
+        self.ev_manager.post(game_events.SetVolume(0 if self.muted else 0.7))

@@ -21,9 +21,6 @@ def main():
     ev_manager = eventmanager.EventManager()
 
     assets = Assets(ev_manager)
-    pygame.mixer.init()
-    music = Music()
-    music.play()
     game_model = model.Engine(ev_manager)
     ui_manager = ui.UIManager(ev_manager)
     scene_manager = scenes.SceneManager(ev_manager)
@@ -31,6 +28,8 @@ def main():
     graphics = view.Graphics(ev_manager, game_model, scene_manager)
     keyboard = controller.Keyboard(ev_manager, game_model)
     db_connector = DBConnector(ev_manager)
+    music = Music(assets, ev_manager)
+
     yoyo_connection = yoyoConnection(ev_manager)
     yoyo_opirations = yoyoOperations(ev_manager, yoyo_connection)
 

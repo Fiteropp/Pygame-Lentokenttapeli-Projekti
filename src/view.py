@@ -43,16 +43,15 @@ class Graphics:
             case events.QuitEvent():
                 self.is_initialized = False
 
-
             case events.TickEvent():
                 if not self.is_initialized:
                     return
                 self.renderall()
 
-
     def initialize(self):
         pygame.display.init()
         pygame.font.init()
+        pygame.mixer.init()
         pygame.display.set_caption("Airport Game")
         self.screen = pygame.display.set_mode((1200, 900))
         self.is_initialized = True

@@ -7,10 +7,18 @@ class StartGameEvent(Event):
     pass
 
 
+
 @dataclass(frozen=True, slots=True)
 class ChangeSceneEvent(Event):
     name: str = field(default="Change Scene event", init=False)
     scene_name: str = field(init=True, repr=True)
+
+
+
+@dataclass(frozen=True, slots=True)
+class SetVolume(Event):
+    name: str = field(default="SetVolume", init=False)
+    volume: float = field(init=True, repr=True)
 
 
 
