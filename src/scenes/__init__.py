@@ -45,6 +45,8 @@ class SceneManager:
 
 
     def register(self, name: str, scene: Scene):
+        self.scenes[name] = scene
+
         """
         :param name: Scene name, for example "main"
         :param scene: Scene object

@@ -44,7 +44,7 @@ class Button(UIElement):
         if self.callback is not None:
             self.callback()
 
-class text(UIElement):
+class Text(UIElement):
 
     """
     Defines the text inside Button
